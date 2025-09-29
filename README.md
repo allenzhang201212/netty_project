@@ -184,7 +184,3 @@ logs/
 ```
 
 ---
-
-## License
-
-MIT (or your preferred license).
