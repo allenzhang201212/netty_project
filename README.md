@@ -184,3 +184,69 @@ logs/
 ```
 
 ---
+
+## Structure
+
+flowchart LR
+  %% 分组
+  subgraph ZK["ZooKeeper / Registry"]
+    REG[Registry]
+  end
+
+  subgraph C["Consumer"]
+    INV[InvokeProxy]
+    NCC[NettyClient]
+    CHM[ChannelManager + Watcher]
+    CTC[Transport + Codec (C)]
+    CLH[ClientHandler]
+    FMP[ResultFuture + FutureMap]
+    CEX[Executor (C)]
+    CLR[ClearThread]
+  end
+
+  subgraph P["Provider"]
+    NCS[NettyServer]
+    SVH[ServerHandler]
+    PTC[Transport + Codec (P)]
+    MED[Medium (dispatch)]
+    INIT[InitMedium (reflect)]
+    PEX[Executor (P)]
+  end
+
+  subgraph B["Bean Pool (Spring)"]
+    RBE[@Remote Bean]
+    RIB[@RemoteInvoke Bean]
+  end
+
+  %% 注册/发现
+  NCS -- register:createNode --> REG
+  NCC -- discover:getChildren+watch --> REG
+  REG -- add/remove channel --> CHM
+
+  %% 连接
+  NCC --- CHM
+  NCC --> CTC
+  NCS --> PTC
+
+  %% 请求路径
+  INV --> FMP
+  INV -- send(Request) --> CTC
+  CTC -- frame --> PTC
+  PTC --> SVH
+  SVH --> MED
+  MED --> PEX
+  PEX --> RBE
+
+  %% 响应路径
+  RBE --> PEX --> SVH
+  SVH --> PTC -- frame --> CTC --> CLH
+  CLH --> FMP --> CEX --> INV
+
+  %% 维护
+  CLR --> FMP
+  NCC <-. heartbeat .-> NCS
+  INV -. choose channel (LB) .-> CHM
+
+  %% Bean 绑定
+  RIB -. proxy .-> INV
+  INIT -. bind beans .-> MED
