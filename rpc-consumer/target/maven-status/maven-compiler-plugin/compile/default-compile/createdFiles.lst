@@ -1,0 +1,4 @@
+com/netty/consumer/RpcReferenceInjector.class
+com/netty/consumer/HelloClient.class
+com/netty/consumer/ConsumerApplication.class
+com/netty/consumer/RpcConsumerProps.class

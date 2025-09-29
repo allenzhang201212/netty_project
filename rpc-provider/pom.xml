@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>com.netty</groupId>
+    <artifactId>netty_project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>rpc-provider</artifactId>
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <!-- Spring Boot 应用基座，版本由父 POM 的 spring-boot-dependencies BOM 管理 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+
+    <!-- 注册中心封装（自身再依赖 rpc-core / rpc-common），无需写 version -->
+<dependency>
+  <groupId>com.netty</groupId>
+  <artifactId>rpc-registry-zk</artifactId>
+  <version>1.0-SNAPSHOT</version>
+</dependency>
+
+    <!-- 可选：仅编译期注解处理用 -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring.boot.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>

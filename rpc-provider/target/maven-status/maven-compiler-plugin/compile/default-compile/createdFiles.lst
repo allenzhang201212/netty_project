@@ -1,0 +1,4 @@
+com/netty/provider/RpcProviderProps.class
+com/netty/provider/ProviderApplication.class
+com/netty/provider/HelloServiceImpl.class
+com/netty/provider/RpcServiceExporter.class
