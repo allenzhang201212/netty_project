@@ -13,7 +13,8 @@ public class ConsumerApplication {
     public static void main(String[] args) { SpringApplication.run(ConsumerApplication.class, args); }
 
     @Bean public ZkRegistry registry(RpcConsumerProps props) { return new ZkRegistry(props.getZk()); }
-    @Bean public PooledRpcClient client() { return new PooledRpcClient(); }
+    @Bean(destroyMethod = "close") 
+    public PooledRpcClient client() { return new PooledRpcClient(); }
 
     @Bean
     public LoadBalancer loadBalancer(RpcConsumerProps props) {
