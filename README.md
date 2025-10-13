@@ -16,7 +16,7 @@ A distributed RPC framework built with **Spring Boot**, **Netty (NIO)**, and **Z
 
 ---
 
-## Project Structure (example)
+## Project Structure 
 
 ```
 .
